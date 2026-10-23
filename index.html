@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ghibli Guide – Find Your Film</title>
+  <meta name="description" content="Tell Ghibli Guide your mood or goal and get the perfect Studio Ghibli film, track what you've watched, and get TV show suggestions based on your ratings.">
+  <meta name="theme-color" content="#a9dbf1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <!-- painted sky -->
+  <div class="sky" aria-hidden="true">
+    <span class="sun"></span>
+    <span class="cloud c1"></span><span class="cloud c2"></span><span class="cloud c3"></span>
+    <span class="petal p1">🌸</span><span class="petal p2">🍃</span><span class="petal p3">✨</span>
+    <span class="petal p4">🍃</span><span class="petal p5">🌸</span><span class="petal p6">✨</span>
+    <span class="petal p7">🍃</span><span class="petal p8">🌸</span>
+  </div>
+
+  <header class="hero">
+    <p class="kicker">✿ a cozy movie picker ✿</p>
+    <h1>Ghibli <span>Guide</span></h1>
+    <p class="sub">Tell me how you feel, and I'll find tonight's film.</p>
+
+    <svg class="scene" viewBox="0 0 640 150" role="presentation" aria-hidden="true">
+      <!-- far hills -->
+      <path d="M0 110 C80 70 170 70 250 100 C330 130 400 70 480 80 C550 88 600 100 640 90 L640 150 L0 150 Z" fill="#b6e0a8"/>
+      <!-- cottage -->
+      <g transform="translate(430 62)">
+        <rect x="0" y="22" width="52" height="34" rx="4" fill="#fff4dc" stroke="#d9b98a" stroke-width="2"/>
+        <path d="M-6 26 L26 0 L58 26 Z" fill="#e98a7b" stroke="#c4675a" stroke-width="2" stroke-linejoin="round"/>
+        <rect x="38" y="4" width="8" height="14" fill="#c4675a"/>
+        <rect x="20" y="36" width="12" height="20" rx="6" fill="#a97c50"/>
+        <rect x="6" y="32" width="10" height="10" rx="2" fill="#ffe79a" stroke="#d9b98a" stroke-width="1.5"/>
+        <circle cx="46" cy="-6" r="5" fill="#fff" opacity=".8"/><circle cx="52" cy="-16" r="7" fill="#fff" opacity=".65"/><circle cx="60" cy="-28" r="9" fill="#fff" opacity=".5"/>
+      </g>
+      <!-- trees -->
+      <g fill="#6cbf84"><circle cx="120" cy="86" r="22"/><circle cx="142" cy="96" r="18"/><circle cx="100" cy="98" r="16"/></g>
+      <rect x="117" y="100" width="6" height="22" rx="3" fill="#a97c50"/>
+      <g fill="#7ccb90"><circle cx="560" cy="88" r="16"/><circle cx="576" cy="96" r="13"/></g>
+      <rect x="558" y="98" width="5" height="18" rx="2.5" fill="#a97c50"/>
+      <!-- front hills -->
+      <path d="M0 128 C120 98 240 138 360 122 C470 108 560 132 640 112 L640 150 L0 150 Z" fill="#8fd49a"/>
+      <!-- flowers -->
+      <g>
+        <circle cx="60" cy="132" r="4" fill="#ffb8c6"/><circle cx="60" cy="132" r="1.6" fill="#ffe79a"/>
+        <circle cx="210" cy="136" r="4" fill="#fff"/><circle cx="210" cy="136" r="1.6" fill="#ffe79a"/>
+        <circle cx="330" cy="128" r="4" fill="#d7c9f3"/><circle cx="330" cy="128" r="1.6" fill="#ffe79a"/>
+        <circle cx="520" cy="130" r="4" fill="#ffb8c6"/><circle cx="520" cy="130" r="1.6" fill="#ffe79a"/>
+        <circle cx="600" cy="124" r="4" fill="#fff"/><circle cx="600" cy="124" r="1.6" fill="#ffe79a"/>
+      </g>
+      <!-- birds -->
+      <path d="M90 34 q6 -8 12 0 q6 -8 12 0" fill="none" stroke="#6b7f8c" stroke-width="2" stroke-linecap="round"/>
+      <path d="M150 20 q5 -6 10 0 q5 -6 10 0" fill="none" stroke="#6b7f8c" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+
+    <div class="stats" id="stats" aria-live="polite"></div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button class="tab is-active" role="tab" id="tab-find" aria-selected="true" aria-controls="view-find" data-act="tab" data-tab="find" type="button">🎬 Find a film</button>
+    <button class="tab" role="tab" id="tab-films" aria-selected="false" aria-controls="view-films" data-act="tab" data-tab="films" type="button">📖 My films</button>
+    <button class="tab" role="tab" id="tab-tv" aria-selected="false" aria-controls="view-tv" data-act="tab" data-tab="tv" type="button">📺 Watch next</button>
+  </nav>
+
+  <main class="container">
+
+    <!-- FIND -->
+    <section id="view-find" class="view is-active" role="tabpanel" aria-labelledby="tab-find">
+      <div id="finder"></div>
+    </section>
+
+    <!-- MY FILMS -->
+    <section id="view-films" class="view" role="tabpanel" aria-labelledby="tab-films" hidden>
+      <div class="card">
+        <h2 class="section-title">My film shelf</h2>
+        <div class="controls">
+          <label>Show
+            <select id="filterSel">
+              <option value="all">All films</option>
+              <option value="unwatched">Not watched yet</option>
+              <option value="watched">Watched</option>
+              <option value="loved">Loved (4★ and up)</option>
+            </select>
+          </label>
+          <label>Sort by
+            <select id="sortSel">
+              <option value="year">Release year</option>
+              <option value="title">Title (A–Z)</option>
+              <option value="mine">My rating</option>
+              <option value="rt">Critics' score</option>
+              <option value="runtime">Shortest first</option>
+            </select>
+          </label>
+        </div>
+        <p class="hint">Tap a film to mark it watched and give it some stars ✨</p>
+        <div id="filmGrid" class="film-grid"></div>
+      </div>
+    </section>
+
+    <!-- WATCH NEXT -->
+    <section id="view-tv" class="view" role="tabpanel" aria-labelledby="tab-tv" hidden>
+      <div id="tvBody"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <svg class="hills" viewBox="0 0 1200 140" preserveAspectRatio="none" aria-hidden="true">
+      <path class="h1" d="M0 70 C150 20 300 20 450 60 C600 100 750 30 900 45 C1050 60 1120 40 1200 30 L1200 140 L0 140 Z"/>
+      <path class="h2" d="M0 100 C200 60 350 110 550 90 C750 70 900 120 1200 80 L1200 140 L0 140 Z"/>
+      <g class="flw">
+        <circle cx="120" cy="112" r="5" fill="#ffb8c6"/><circle cx="300" cy="118" r="5" fill="#fff"/><circle cx="470" cy="104" r="5" fill="#ffe79a"/>
+        <circle cx="690" cy="112" r="5" fill="#d7c9f3"/><circle cx="880" cy="116" r="5" fill="#ffb8c6"/><circle cx="1050" cy="100" r="5" fill="#fff"/>
+      </g>
+    </svg>
+    <p class="credit">Film data from the <a href="https://ghibliapi.vercel.app/" target="_blank" rel="noopener">Studio Ghibli API</a> · TV data from <a href="https://www.tvmaze.com/" target="_blank" rel="noopener">TVMaze</a><br>Fan-made, not affiliated with Studio Ghibli.</p>
+  </footer>
+
+  <!-- FILM DETAILS -->
+  <dialog id="filmDialog" aria-label="Film details">
+    <div id="filmDialogBody"></div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
